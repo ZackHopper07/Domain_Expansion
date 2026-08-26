@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-<<<<<<< HEAD
 :root {
   --color-primary: #a855f7;
   --color-secondary: #7c3aed;
@@ -37,8 +36,6 @@ body {
   background: #c084fc;
 }
 
-=======
->>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
 @layer utilities {
   .animate-in {
     animation-fill-mode: both;
