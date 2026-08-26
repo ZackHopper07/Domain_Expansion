@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #a855f7;
+  --color-secondary: #7c3aed;
+  --color-accent: #d8b4fe;
+  --color-bg-dark: #090b1a;
+  --color-ink: #0d1022;
+  --color-muted: #9698b5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: #f6f3ff;
+  background: var(--color-bg-dark);
+  font-family: "Space Grotesk", "Avenir Next", sans-serif;
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(117, 45, 191, 0.25), transparent 34rem),
+    radial-gradient(circle at 14% 35%, rgba(67, 42, 138, 0.1), transparent 28rem),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: auto, auto, 5rem 5rem, 5rem 5rem;
+  background-position: center top;
+}
+
+.site-shell :where(h1, h2, h3, h4, h5, h6, p, span, a, button, label, td, th, li, option) {
+  color: #ffffff;
+}
+
+::selection {
+  color: #110b20;
+  background: #c084fc;
+}
+
+@layer utilities {
+  .animate-in {
+    animation-fill-mode: both;
+  }
+
+  .slide-in-from-top {
+    animation-name: slideInFromTop;
+  }
+
+  .slide-in-from-bottom {
+    animation-name: slideInFromBottom;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  .duration-300 {
+    animation-duration: 300ms;
+  }
+
+  .duration-700 {
+    animation-duration: 700ms;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
