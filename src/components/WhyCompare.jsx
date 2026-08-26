@@ -3,8 +3,13 @@ import { Clock, ShieldCheck, Sparkles } from "lucide-react";
 const reasons = [
   {
     icon: Clock,
+<<<<<<< HEAD
     iconBg: "bg-fuchsia-400/15",
     iconColor: "text-fuchsia-300",
+=======
+    iconBg: "bg-blue-500/20",
+    iconColor: "text-blue-400",
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
     title: "Live availability",
     content:
       "Every check runs against ICANN RDAP in real time, with a visible last-updated timestamp — not a cached guess.",
@@ -49,7 +54,11 @@ export default function WhyCompare() {
               {reasons.map((reason, key) => (
                 <div
                   key={key}
+<<<<<<< HEAD
                   className="bg-[#11142a]/65 p-4 sm:p-6 backdrop-blur-sm border border-white/10 rounded-xl sm:rounded-2xl"
+=======
+                  className="bg-slate-900/50 p-4 sm:p-6 backdrop-blur-sm border border-slate-800 rounded-xl sm:rounded-2xl"
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
                 >
                   <div className="flex items-start space-x-3 sm:space-x-4">
                     <div

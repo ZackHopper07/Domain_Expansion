@@ -12,7 +12,11 @@ export default function ResultsPanel({ result }) {
         {/* Status row */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <Globe2 className="w-5 h-5 text-fuchsia-300" aria-hidden="true" />
+=======
+            <Globe2 className="w-5 h-5 text-blue-400" aria-hidden="true" />
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
             <h3 className="font-mono text-lg sm:text-xl font-bold text-white">
               {result.domain}
             </h3>
@@ -24,7 +28,10 @@ export default function ResultsPanel({ result }) {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Available domains show ranked registrar prices; registered domains show alternatives. */}
+=======
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
         {result.available ? (
           <>
             <div className="flex items-center gap-2 mb-3">
@@ -89,7 +96,10 @@ export default function ResultsPanel({ result }) {
             <p className="text-sm mb-4 text-gray-300">
               That name is already registered. Here are available alternatives:
             </p>
+<<<<<<< HEAD
             {/* Alternative domains open the matching registrar checkout. */}
+=======
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {result.alternatives.map((alt) => (
                 <a
@@ -97,7 +107,11 @@ export default function ResultsPanel({ result }) {
                   href={buildCheckoutUrl(alt.registrar, alt.domain)}
                   target="_blank"
                   rel="noopener noreferrer"
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:border-fuchsia-300/40 hover:bg-white/10"
+=======
+                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:border-blue-400/40 hover:bg-white/10"
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
                 >
                   <span className="flex flex-col">
                     <span className="font-mono text-sm font-semibold text-white">
@@ -108,10 +122,17 @@ export default function ResultsPanel({ result }) {
                     </span>
                   </span>
                   <span className="flex items-center gap-1.5">
+<<<<<<< HEAD
                     <span className="font-mono text-sm font-bold text-fuchsia-200">
                       ${alt.price.toFixed(2)}
                     </span>
                     <ExternalLink className="w-3.5 h-3.5 text-fuchsia-200" aria-hidden="true" />
+=======
+                    <span className="font-mono text-sm font-bold text-blue-300">
+                      ${alt.price.toFixed(2)}
+                    </span>
+                    <ExternalLink className="w-3.5 h-3.5 text-blue-300" aria-hidden="true" />
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
                   </span>
                 </a>
               ))}
