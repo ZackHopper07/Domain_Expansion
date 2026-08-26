@@ -20,6 +20,7 @@ function App() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="site-shell min-h-screen text-white overflow-x-hidden">
       {/* The app shell owns the shared page layout and scroll-aware navigation. */}
       <Navbar scrolled={scrolled} />
@@ -32,6 +33,14 @@ function App() {
       {/* Builds trust by explaining the project's core benefits. */}
       <WhyCompare />
       {/* Project links, social links, and registrar disclaimer. */}
+=======
+    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+      <Navbar scrolled={scrolled} />
+      <Hero />
+      <Features />
+      <ComparisonPreview />
+      <WhyCompare />
+>>>>>>> 53e0773e429aa548712526d3138262bd0e1e3b19
       <Footer />
     </div>
   );
