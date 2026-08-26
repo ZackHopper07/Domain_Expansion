@@ -62,7 +62,7 @@ export default function Features() {
               How
             </span>
             <br />
-            <span className="bg-gradient-to-b from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-b from-fuchsia-300 to-violet-400 bg-clip-text text-transparent">
               DomainCompare works
             </span>
           </h2>
@@ -83,13 +83,13 @@ export default function Features() {
               <div className="flex-1 w-full">
                 <div className="relative group">
                   <div
-                    className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20
+                    className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/20 to-violet-500/20
                   rounded-xl sm:rounded-2xl transition-all duration-500"
                   />
                   <div
                     className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-700/50
                   rounded-xl sm:rounded-2xl p-4 sm:p-6 overflow-hidden group-hover:border-1
-                  group-hover:border-blue-600/50 transition-all duration-300"
+                  group-hover:border-fuchsia-400/50 transition-all duration-300"
                   >
                     <div className="bg-gray-950 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm">
                       <div className="flex items-center space-x-1 sm:space-x-2 mb-3 sm:mb-4">
