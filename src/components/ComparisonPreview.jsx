@@ -9,6 +9,7 @@ const exampleResult = buildMockResult("mybusiness", ".com");
 
 export default function ComparisonPreview() {
   return (
+    // Reuses the live result component so the preview stays behaviorally consistent.
     <section id="compare" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 sm:mb-14">
@@ -17,12 +18,12 @@ export default function ComparisonPreview() {
               See it in
             </span>
             <br />
-            <span className="bg-gradient-to-b from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-b from-fuchsia-300 to-violet-400 bg-clip-text text-transparent">
               action
             </span>
           </h2>
           <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-            A real comparison for <span className="font-mono text-blue-300">mybusiness.com</span> —
+            A real comparison for <span className="font-mono text-fuchsia-200">mybusiness.com</span> —
             the same result you'd get from the search bar above.
           </p>
         </div>
@@ -30,6 +31,7 @@ export default function ComparisonPreview() {
         <ResultsPanel result={exampleResult} />
 
         <div className="mt-8 sm:mt-12 text-center">
+          {/* Returns visitors to the live search workflow. */}
           <a
             href="#top"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm hover:bg-white/10 transition-all duration-300"

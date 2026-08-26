@@ -20,12 +20,18 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+    <div className="site-shell min-h-screen text-white overflow-x-hidden">
+      {/* The app shell owns the shared page layout and scroll-aware navigation. */}
       <Navbar scrolled={scrolled} />
+      {/* Primary domain search and live result states. */}
       <Hero />
+      {/* Explains the three-step availability and pricing workflow. */}
       <Features />
+      {/* Shows a representative comparison without requiring a search. */}
       <ComparisonPreview />
+      {/* Builds trust by explaining the project's core benefits. */}
       <WhyCompare />
+      {/* Project links, social links, and registrar disclaimer. */}
       <Footer />
     </div>
   );

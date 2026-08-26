@@ -5,6 +5,7 @@ export default function PriceBarRow({ row, maxPrice, isBest, isMobile, domain })
   const pct = Math.max(10, (row.registration / maxPrice) * 100);
   const checkoutUrl = buildCheckoutUrl(row, domain);
 
+  // Keep the mobile card and desktop table representations on the same price data.
   if (isMobile) {
     return (
       <div
@@ -49,6 +50,7 @@ export default function PriceBarRow({ row, maxPrice, isBest, isMobile, domain })
             <div className="text-gray-300">${row.transfer.toFixed(2)}</div>
           </div>
         </div>
+        {/* Mobile checkout action for this registrar. */}
         <a
           href={checkoutUrl}
           target="_blank"
@@ -98,6 +100,7 @@ export default function PriceBarRow({ row, maxPrice, isBest, isMobile, domain })
         ${row.transfer.toFixed(2)}
       </td>
       <td className="py-3 pl-2 pr-4 relative text-right">
+        {/* Desktop checkout action for this registrar. */}
         <a
           href={checkoutUrl}
           target="_blank"
