@@ -29,6 +29,17 @@ export default function Footer() {
               Check availability and compare registrar prices in one search.
               Final-year project prototype.
             </p>
+            <p className="text-gray-500 mb-4 sm:mb-6 text-xs sm:text-sm">
+              Contributor:{" "}
+              <a
+                href="https://github.com/ZackHopper07"
+                target="_blank"
+                rel="noreferrer"
+                className="text-fuchsia-300 hover:text-white transition-colors duration-200"
+              >
+                ZackHopper07
+              </a>
+            </p>
             <div className="flex justify-center sm:justify-start space-x-3 sm:space-x-4">
               {/* External project and contact shortcuts. */}
               <a
