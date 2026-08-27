@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import AuthModal from "./AuthModal.jsx";
 
 const NAV_LINKS = [
   { href: "#how-it-works", label: "How it works" },
@@ -9,6 +10,17 @@ const NAV_LINKS = [
 
 export default function Navbar({ scrolled }) {
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  function handleAuthSuccess(authenticatedUser) {
+    setUser(authenticatedUser);
+    setAuthModalOpen(false);
+  }
+
+  function handleSignOut() {
+    setUser(null);
+  }
 
   return (
     <nav
@@ -50,6 +62,26 @@ export default function Navbar({ scrolled }) {
             >
               Search a domain
             </a>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-300">
+                  Welcome, <span className="text-white font-medium">{user.name}</span>
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 hover:text-white transition-colors duration-200"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setAuthModalOpen(true)}
+                className="px-4 py-2 bg-violet-700 text-white rounded-lg text-sm font-semibold hover:bg-violet-600 transition-colors duration-200"
+              >
+                Sign In
+              </button>
+            )}
           </div>
 
           {/* Mobile menu toggle keeps navigation available on narrow screens. */}
@@ -88,8 +120,38 @@ export default function Navbar({ scrolled }) {
             >
               Search a domain
             </a>
+            {user ? (
+              <>
+                <span className="block text-sm text-gray-400">
+                  Welcome, <span className="text-white font-medium">{user.name}</span>
+                </span>
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    setMobileMenuIsOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-lg text-sm font-medium"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => {
+                  setAuthModalOpen(true);
+                  setMobileMenuIsOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 bg-violet-700 text-white rounded-lg text-sm font-semibold"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
+      )}
+
+      {authModalOpen && (
+        <AuthModal onAuthSuccess={handleAuthSuccess} onClose={() => setAuthModalOpen(false)} />
       )}
     </nav>
   );

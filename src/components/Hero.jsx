@@ -108,10 +108,10 @@ export default function Hero() {
               aria-label="Top-level domain"
               value={tld}
               onChange={(e) => setTld(e.target.value)}
-              className="hidden sm:block border-l border-white/10 px-3 text-sm font-mono outline-none bg-transparent text-fuchsia-100"
+              className="hidden sm:block border-l border-white/10 px-3 text-sm font-mono outline-none bg-transparent text-fuchsia-100 [color-scheme:dark]"
             >
               {TLDS.map((t) => (
-                <option key={t} value={t}>
+                <option key={t} value={t} className="bg-[#171a31] text-fuchsia-100">
                   {t}
                 </option>
               ))}
