@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import AuthModal from "./AuthModal.jsx";
 
 const NAV_LINKS = [
   { href: "#how-it-works", label: "How it works" },
@@ -9,30 +10,42 @@ const NAV_LINKS = [
 
 export default function Navbar({ scrolled }) {
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  function handleAuthSuccess(authenticatedUser) {
+    setUser(authenticatedUser);
+    setAuthModalOpen(false);
+  }
+
+  function handleSignOut() {
+    setUser(null);
+  }
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/80 backdrop-blur-lg border-b border-slate-800"
-          : "bg-slate-950/20 backdrop-blur-sm"
+          ? "bg-[#090b1a]/80 backdrop-blur-lg border-b border-white/10"
+          : "bg-[#090b1a]/20 backdrop-blur-sm"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
-          <a href="#top" className="flex items-center space-x-1 group cursor-pointer">
+          {/* Brand link returns the visitor to the search hero. */}
+          <a href="#top" className="flex items-center space-x-2 group cursor-pointer">
             <img
-              src="/logo.png"
-              alt="DomainCompare"
-              className="w-6 h-6 sm:w-8 sm:h-8"
+              src="/domain.png"
+              alt="DomainExpansion"
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
             />
             <span className="text-lg sm:text-xl md:text-2xl font-medium">
               <span className="text-white">Domain</span>
-              <span className="text-blue-400">Compare</span>
+              <span className="text-fuchsia-300">Expansion</span>
             </span>
           </a>
 
-          {/* Nav Links */}
+          {/* Desktop section navigation and primary search shortcut. */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {NAV_LINKS.map((link) => (
               <a
@@ -45,12 +58,33 @@ export default function Navbar({ scrolled }) {
             ))}
             <a
               href="#top"
-              className="px-4 py-2 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg text-sm font-semibold hover:scale-102 transition-transform duration-200"
+              className="px-4 py-2 bg-violet-700 text-white rounded-lg text-sm font-semibold hover:bg-violet-600 transition-colors duration-200"
             >
               Search a domain
             </a>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-300">
+                  Welcome, <span className="text-white font-medium">{user.name}</span>
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/10 hover:text-white transition-colors duration-200"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setAuthModalOpen(true)}
+                className="px-4 py-2 bg-violet-700 text-white rounded-lg text-sm font-semibold hover:bg-violet-600 transition-colors duration-200"
+              >
+                Sign In
+              </button>
+            )}
           </div>
 
+          {/* Mobile menu toggle keeps navigation available on narrow screens. */}
           <button
             className="md:hidden p-2 text-gray-300 hover:text-white"
             onClick={() => setMobileMenuIsOpen((prev) => !prev)}
@@ -65,8 +99,9 @@ export default function Navbar({ scrolled }) {
         </div>
       </div>
 
+      {/* Mobile links close the menu after navigating to a section. */}
       {mobileMenuIsOpen && (
-        <div className="md:hidden bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 animate-in slide-in-from-top duration-300">
+        <div className="md:hidden bg-[#0d1022]/95 backdrop-blur-lg border-t border-white/10 animate-in slide-in-from-top duration-300">
           <div className="px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
             {NAV_LINKS.map((link) => (
               <a
@@ -81,12 +116,42 @@ export default function Navbar({ scrolled }) {
             <a
               href="#top"
               onClick={() => setMobileMenuIsOpen(false)}
-              className="block text-blue-400 font-semibold text-sm lg:text-base"
+              className="block text-fuchsia-300 font-semibold text-sm lg:text-base"
             >
               Search a domain
             </a>
+            {user ? (
+              <>
+                <span className="block text-sm text-gray-400">
+                  Welcome, <span className="text-white font-medium">{user.name}</span>
+                </span>
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    setMobileMenuIsOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-lg text-sm font-medium"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => {
+                  setAuthModalOpen(true);
+                  setMobileMenuIsOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 bg-violet-700 text-white rounded-lg text-sm font-semibold"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
+      )}
+
+      {authModalOpen && (
+        <AuthModal onAuthSuccess={handleAuthSuccess} onClose={() => setAuthModalOpen(false)} />
       )}
     </nav>
   );
