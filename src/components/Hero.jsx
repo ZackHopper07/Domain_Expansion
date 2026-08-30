@@ -1,9 +1,11 @@
-import { RefreshCw, Search, Sparkles } from "lucide-react";
+import { RefreshCw, Search, Sparkles, Settings } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TLDS, buildMockResult } from "../mockData.js";
 import TldChip from "./TldChip.jsx";
 import ResultsSkeleton from "./ResultsSkeleton.jsx";
 import ResultsPanel from "./ResultsPanel.jsx";
+import AiKeyModal from "./AiKeyModal.jsx";
+import AiSuggestionsPanel from "./AiSuggestionsPanel.jsx";
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -14,6 +16,12 @@ export default function Hero() {
   const [error, setError] = useState("");
   const timerRef = useRef(null);
 
+  // AI-specific states
+  const [searchMode, setSearchMode] = useState("standard"); // 'standard' | 'ai'
+  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [hasApiKey, setHasApiKey] = useState(false);
+
   useEffect(() => {
     function handleMouseMove(e) {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -21,6 +29,10 @@ export default function Hero() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  useEffect(() => {
+    setHasApiKey(!!localStorage.getItem("openrouter_api_key"));
+  }, [isKeyModalOpen]);
 
   const runSearch = useCallback((rawName, rawTld) => {
     const cleaned = rawName.trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
@@ -31,18 +43,103 @@ export default function Hero() {
     setError("");
     setSearching(true);
     setResult(null);
+    setAiSuggestions([]);
     if (timerRef.current) clearTimeout(timerRef.current);
-    // Simulated network latency for the mock data layer — replace with a
-    // real fetch() to the FastAPI backend once it's available.
+    
     timerRef.current = setTimeout(() => {
       setResult(buildMockResult(cleaned, rawTld));
       setSearching(false);
     }, 900);
   }, []);
 
+  const runAiBrainstorm = async (query) => {
+    const cleanQuery = query.trim();
+    if (!cleanQuery) {
+      setError("Describe your idea first to brainstorm domains.");
+      return;
+    }
+
+    const apiKey = localStorage.getItem("openrouter_api_key");
+    if (!apiKey) {
+      setError("Please configure your OpenRouter API Key using the settings button first.");
+      setIsKeyModalOpen(true);
+      return;
+    }
+
+    setError("");
+    setSearching(true);
+    setResult(null);
+    setAiSuggestions([]);
+
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://github.com/domaincompare",
+          "X-Title": "DomainCompare AI",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: [
+            {
+              role: "system",
+              content: "You are a creative brand naming and domain brainstorming assistant. Generate exactly 10 distinct, catchy domain names suitable for the user's idea. Provide a diverse mix of popular TLDs (like .com, .net, .org, .co, .io, .ai, .in, .app) based on context. Output response as a raw JSON array of objects, each containing a 'domain' string and an 'explanation' string. Do not include markdown code block syntax. Return only the raw JSON array."
+            },
+            {
+              role: "user",
+              content: cleanQuery
+            }
+          ],
+          response_format: { type: "json_object" }
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error?.message || `HTTP error ${response.status}`);
+      }
+
+      const data = await response.json();
+      let text = data.choices[0].message.content.trim();
+
+      if (text.startsWith("```")) {
+        text = text.replace(/^```json\s*/i, "").replace(/```$/, "").trim();
+      }
+
+      const parsed = JSON.parse(text);
+      if (!Array.isArray(parsed)) {
+        throw new Error("Invalid output format returned by AI.");
+      }
+
+      setAiSuggestions(parsed);
+    } catch (err) {
+      console.error(err);
+      setError(`AI Brainstorm failed: ${err.message}`);
+    } finally {
+      setSearching(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    runSearch(name, tld);
+    if (searchMode === "ai") {
+      runAiBrainstorm(name);
+    } else {
+      runSearch(name, tld);
+    }
+  };
+
+  const handleSelectSuggestion = (domainStr) => {
+    const lastDot = domainStr.lastIndexOf(".");
+    const cleanName = lastDot !== -1 ? domainStr.substring(0, lastDot) : domainStr;
+    const cleanTld = lastDot !== -1 ? domainStr.substring(lastDot) : ".com";
+
+    setName(cleanName);
+    setTld(cleanTld);
+    setSearchMode("standard");
+    runSearch(cleanName, cleanTld);
   };
 
   return (
@@ -78,9 +175,59 @@ export default function Hero() {
         </h1>
 
         <p className="text-sm sm:text-base lg:text-lg text-gray-400 max-w-xl mx-auto mb-8 sm:mb-10 animate-in slide-in-from-bottom duration-700 delay-200 leading-relaxed">
-          Check availability instantly and compare registration, renewal, and
-          transfer prices from multiple registrars — in one search.
+          {searchMode === "ai"
+            ? "Describe your business, app, or concept. Our AI will brainstorm matching domains, and we will cross-reference live prices instantly."
+            : "Check availability instantly and compare registration, renewal, and transfer prices from multiple registrars — in one search."}
         </p>
+
+        {/* Mode Selector and API key toggle */}
+        <div className="flex items-center justify-center gap-3 mb-6 animate-in slide-in-from-bottom duration-700 delay-250">
+          <div className="inline-flex rounded-xl bg-white/5 p-1 border border-white/5">
+            <button
+              type="button"
+              onClick={() => {
+                setSearchMode("standard");
+                setError("");
+                setResult(null);
+                setAiSuggestions([]);
+              }}
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                searchMode === "standard"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Standard Search
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchMode("ai");
+                setError("");
+                setResult(null);
+              }}
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchMode === "ai"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              AI Brainstorm
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsKeyModalOpen(true)}
+            className={`p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all flex items-center justify-center ${
+              hasApiKey ? "border-emerald-500/20 text-emerald-400 hover:text-emerald-300" : ""
+            }`}
+            title={hasApiKey ? "OpenRouter Connected" : "Configure OpenRouter"}
+          >
+            <Settings className="w-4.5 h-4.5" />
+          </button>
+        </div>
 
         <form
           onSubmit={handleSubmit}
@@ -88,31 +235,41 @@ export default function Hero() {
         >
           <div className="flex items-stretch gap-0 rounded-2xl bg-white/95 backdrop-blur-xl overflow-hidden shadow-2xl">
             <div className="flex items-center pl-4 shrink-0">
-              <Search className="w-4 h-4 text-slate-400" aria-hidden="true" />
+              {searchMode === "ai" ? (
+                <Sparkles className="w-4 h-4 text-blue-500" aria-hidden="true" />
+              ) : (
+                <Search className="w-4 h-4 text-slate-400" aria-hidden="true" />
+              )}
             </div>
             <label htmlFor="domain-input" className="sr-only">
-              Domain name
+              {searchMode === "ai" ? "Brand description" : "Domain name"}
             </label>
             <input
               id="domain-input"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter a domain name (e.g. mybusiness)"
+              placeholder={
+                searchMode === "ai"
+                  ? "Describe your startup or project (e.g. coffee subscription)..."
+                  : "Enter a domain name (e.g. mybusiness)"
+              }
               className="flex-1 min-w-0 px-3 py-4 text-sm sm:text-base outline-none text-slate-900 bg-transparent"
             />
-            <select
-              aria-label="Top-level domain"
-              value={tld}
-              onChange={(e) => setTld(e.target.value)}
-              className="hidden sm:block border-l border-slate-200 px-3 text-sm font-mono outline-none bg-white text-slate-900"
-            >
-              {TLDS.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            {searchMode !== "ai" && (
+              <select
+                aria-label="Top-level domain"
+                value={tld}
+                onChange={(e) => setTld(e.target.value)}
+                className="hidden sm:block border-l border-slate-200 px-3 text-sm font-mono outline-none bg-white text-slate-900"
+              >
+                {TLDS.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            )}
             <button
               type="submit"
               disabled={searching}
@@ -120,11 +277,17 @@ export default function Hero() {
             >
               {searching ? (
                 <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />
+              ) : searchMode === "ai" ? (
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
               ) : (
                 <Search className="w-4 h-4" aria-hidden="true" />
               )}
               <span className="hidden sm:inline">
-                {searching ? "Searching" : "Search"}
+                {searching
+                  ? "Searching..."
+                  : searchMode === "ai"
+                  ? "Brainstorm"
+                  : "Search"}
               </span>
             </button>
           </div>
@@ -135,11 +298,13 @@ export default function Hero() {
           )}
         </form>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-          {TLDS.map((t) => (
-            <TldChip key={t} tld={t} active={t === tld} onClick={() => setTld(t)} />
-          ))}
-        </div>
+        {searchMode !== "ai" && (
+          <div className="flex flex-wrap justify-center gap-2 mb-4">
+            {TLDS.map((t) => (
+              <TldChip key={t} tld={t} active={t === tld} onClick={() => setTld(t)} />
+            ))}
+          </div>
+        )}
 
         <p className="text-xs text-gray-500">
           Compares live pricing structure from 5 registrars · Availability via
@@ -149,6 +314,15 @@ export default function Hero() {
 
       {searching && <ResultsSkeleton />}
       {!searching && result && <ResultsPanel result={result} />}
+      {!searching && searchMode === "ai" && aiSuggestions.length > 0 && (
+        <AiSuggestionsPanel
+          suggestions={aiSuggestions}
+          onSelectSuggestion={handleSelectSuggestion}
+        />
+      )}
+
+      <AiKeyModal isOpen={isKeyModalOpen} onClose={() => setIsKeyModalOpen(false)} />
     </section>
   );
 }
+
