@@ -1,54 +1,39 @@
-# DomainCompare — Marketing Site
+# PriceMyDomain frontend
 
-Public-facing landing page for the **Domain Search and Price Comparison
-Platform** final-year project (BSc.IT, Presidential Graduate School /
-Westcliff University). Built from a "modern-ux-ui" React + Tailwind
-template, repurposed section-by-section for this project.
+React (JavaScript) + plain CSS, built with Vite. Uses the browser's built-in `fetch` to talk to the FastAPI backend.
 
-## Stack
-
-- React 19 + Vite 7
-- Tailwind CSS v4 (via `@tailwindcss/vite`, no config file needed)
-- lucide-react (icons)
-- react-syntax-highlighter (lazy-loaded, only in the "How it works" section)
-
-## Project structure
-
-```
-src/
-  App.jsx                    # composes all sections
-  components/
-    Navbar.jsx                 # header + nav links + mobile menu
-    Hero.jsx                    # GoDaddy-style search: input, TLD chips, results
-    TldChip.jsx                  # one TLD quick-select pill
-    ResultsSkeleton.jsx          # loading state while "searching"
-    ResultsPanel.jsx             # availability + price table + alternatives
-    PriceBarRow.jsx               # one registrar row (table row / mobile card)
-    StatusBadge.jsx                # Available / Registered pill
-    Features.jsx                   # "How it works" - 3 steps w/ real API JSON examples
-    CodeBlock.jsx                   # lazy-loaded syntax-highlighted code panel
-    ComparisonPreview.jsx           # live example comparison (uses ResultsPanel)
-    WhyCompare.jsx                   # trust/feature panel
-    Footer.jsx                        # footer links + registrar disclaimer
-```
-
-## The redirect / affiliate registration model
-
-This platform is **not** an ICANN-accredited registrar. It never registers
-a domain itself - every "Register" button opens the selected registrar's
-own checkout in a new tab. This is
-intentional and matches the project proposal's Legal/Ethical section.
-
-Registrar names (`NovaReg`, `Domainly`, etc.) are placeholders. Swap
-`checkoutUrlTemplate` for real affiliate links once you've signed up for
-actual registrar affiliate programs.
-
-## Getting started
+## Run it
 
 ```bash
 npm install
-npm run dev       # local dev server
-npm run build     # production build -> dist/
-npm run lint      # ESLint
+npm run dev
 ```
 
+## Demo data vs. the real backend
+
+Until the FastAPI backend exists, the site uses sample data from `src/api/mock.js`. The site shows a "Demo mode" banner while this is on.
+
+To switch to the backend, copy `.env.example` to `.env` and set:
+
+```
+VITE_USE_MOCK=false
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+## Endpoints the frontend expects
+
+| Call | Endpoint |
+|---|---|
+| Search a domain | `POST /api/domains/search` with `{ "domain": "mybusiness.com" }` |
+| Alternative names | `POST /api/recommendations` with `{ "domain": "mybusiness.com" }` |
+| Price history | `GET /api/price-history/{domain}` |
+
+The response shapes are exactly what `src/api/mock.js` returns. Match those fields in FastAPI and the UI works unchanged.
+
+## Where things live
+
+- `src/App.jsx`: page layout, search state, `?q=` shareable links
+- `src/components/`: one component per section, each with its own CSS file
+- `src/api/client.js`: switches between mock data and the real API
+- `src/utils/`: domain validation and price math
+- `src/index.css`: brand colors and shared styles
