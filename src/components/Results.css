@@ -1,0 +1,153 @@
+.results {
+  padding: 48px 0 72px;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+}
+
+.results-title {
+  font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+  margin-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+
+.results-title:focus {
+  outline: none;
+}
+
+.results-body {
+  display: grid;
+  gap: 24px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 32px;
+  }
+}
+
+.card-title {
+  font-size: 1.375rem;
+}
+
+.card-sub {
+  margin-top: 6px;
+  color: var(--ink-muted);
+}
+
+.skeleton-card {
+  min-height: 140px;
+}
+
+.results-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 24px;
+  background: var(--red-50);
+  border: 1px solid #f4c7c3;
+  border-radius: var(--radius-lg);
+  color: var(--red-700);
+}
+
+.results-error > div {
+  flex: 1;
+  min-width: 220px;
+}
+
+.results-error-title {
+  font-weight: 700;
+}
+
+.results-error .btn {
+  color: var(--ink);
+}
+
+/* Reusable status pill: icon + text, never color alone. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.pill-available {
+  background: var(--green-50);
+  color: var(--green-700);
+  box-shadow: inset 0 0 0 1px var(--green-100);
+}
+
+.pill-taken {
+  background: var(--red-50);
+  color: var(--red-700);
+  box-shadow: inset 0 0 0 1px #f4c7c3;
+}
+
+.pill-reserved {
+  background: var(--amber-50);
+  color: var(--amber-800);
+  box-shadow: inset 0 0 0 1px #f3e1bb;
+}
+
+.pill-neutral {
+  background: #eef1f4;
+  color: var(--ink-muted);
+}
+
+/* The logo's slant, reused for the one "Cheapest" marker. */
+.tag-cheapest {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 12px;
+  background: var(--green-500);
+  color: var(--green-900);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transform: skewX(var(--slant));
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.tag-cheapest > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transform: skewX(calc(var(--slant) * -1));
+}
+
+.note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+}
+
+.note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.note-info {
+  background: var(--blue-50);
+  color: var(--blue-900);
+}
+
+.note-warn {
+  background: var(--amber-50);
+  color: var(--amber-800);
+}

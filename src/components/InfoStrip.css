@@ -1,0 +1,26 @@
+.info-strip {
+  background: var(--green-50);
+  border-bottom: 1px solid var(--green-100);
+  color: var(--green-900);
+  font-size: 0.9375rem;
+}
+
+.info-strip.is-demo {
+  background: var(--amber-50);
+  border-bottom-color: #f3e1bb;
+  color: var(--amber-800);
+}
+
+.info-strip-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.info-strip-inner svg {
+  flex-shrink: 0;
+}

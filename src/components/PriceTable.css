@@ -1,0 +1,247 @@
+.price-card {
+  display: grid;
+  gap: 20px;
+}
+
+.price-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.price-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.control {
+  display: grid;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.control select {
+  min-height: 44px;
+  padding: 0 36px 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23565d64' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  appearance: none;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.control select:hover {
+  border-color: var(--blue-500);
+}
+
+/* The header buttons do the sorting on wider screens. */
+@media (min-width: 700px) {
+  .control-sort {
+    display: none;
+  }
+}
+
+.table-wrap {
+  margin: 0 -8px;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.price-table th,
+.price-table td {
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.price-table .num {
+  text-align: right;
+}
+
+.price-table thead th {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  border-bottom: 1px solid var(--line-strong);
+  white-space: nowrap;
+}
+
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 6px;
+  margin-right: -6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-weight: 700;
+  color: inherit;
+}
+
+.sort-btn svg {
+  opacity: 0.55;
+}
+
+.sort-btn:hover {
+  background: var(--blue-50);
+  color: var(--blue-800);
+}
+
+.sort-btn.is-active {
+  color: var(--blue-800);
+}
+
+.sort-btn.is-active svg {
+  opacity: 1;
+}
+
+.price-table tbody tr {
+  border-bottom: 1px solid var(--line);
+}
+
+.price-table tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.price-table tbody tr.is-best {
+  background: var(--green-50);
+}
+
+.registrar-cell {
+  font-weight: 700;
+}
+
+.registrar-cell .tag-cheapest {
+  margin-left: 12px;
+  vertical-align: 2px;
+}
+
+.price {
+  display: inline-grid;
+  justify-items: end;
+  gap: 2px;
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+
+.intro,
+.per-yr {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-subtle);
+}
+
+.intro {
+  color: var(--amber-800);
+}
+
+.missing {
+  font-size: 0.875rem;
+  color: var(--ink-subtle);
+}
+
+.updated {
+  font-size: 0.875rem;
+  color: var(--ink-subtle);
+  white-space: nowrap;
+}
+
+/* Small screens: each registrar becomes a stacked card. */
+@media (max-width: 699px) {
+  .table-wrap {
+    margin: 0;
+  }
+
+  .price-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .price-table,
+  .price-table tbody,
+  .price-table tr,
+  .price-table th,
+  .price-table td {
+    display: block;
+  }
+
+  .price-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+    margin-bottom: 12px;
+    padding: 4px 16px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .price-table tbody tr:last-child {
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
+  }
+
+  .price-table tbody tr.is-best {
+    border-color: var(--green-500);
+  }
+
+  .price-table th.registrar-cell {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .registrar-cell .tag-cheapest {
+    margin-left: 4px;
+  }
+
+  .price-table td,
+  .price-table .num {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 0 0;
+    text-align: left;
+  }
+
+  .price-table td::before {
+    content: attr(data-label);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+  }
+
+  .price-table .price {
+    justify-items: start;
+  }
+}
+
+.provider-errors ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.price-foot {
+  font-size: 0.8125rem;
+  color: var(--ink-subtle);
+}

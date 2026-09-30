@@ -1,0 +1,106 @@
+.how {
+  background: var(--page);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.steps {
+  display: grid;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+@media (min-width: 640px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+}
+
+.step h3 {
+  margin-top: 18px;
+  font-size: 1.1875rem;
+  font-weight: 700;
+}
+
+.step p {
+  margin-top: 6px;
+  color: var(--ink-muted);
+}
+
+/* Step numbers sit in the logo's slanted shape. */
+.step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 40px;
+  background: var(--blue-700);
+  color: #fff;
+  border-radius: 7px;
+  transform: skewX(var(--slant));
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+
+.step:nth-child(even) .step-num {
+  background: var(--green-500);
+  color: var(--green-900);
+}
+
+.step-num > span {
+  transform: skewX(calc(var(--slant) * -1));
+}
+
+.promises {
+  display: grid;
+  gap: 16px;
+  margin: 56px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .promises {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.promises li {
+  display: flex;
+  gap: 14px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.promise-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.promises h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.promises p {
+  margin-top: 4px;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}

@@ -1,0 +1,30 @@
+/* Visible artwork in the 615x405 source sits at roughly x 62–552, y 96–292.
+   --s scales the whole image; the window shows only that region. */
+.logo {
+  --s: 0.24;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: calc(490px * var(--s));
+  height: calc(196px * var(--s));
+  flex-shrink: 0;
+}
+
+.logo img {
+  position: absolute;
+  max-width: none;
+  width: calc(615px * var(--s));
+  height: calc(405px * var(--s));
+  left: calc(-62px * var(--s));
+  top: calc(-96px * var(--s));
+}
+
+.logo-sm {
+  --s: 0.2;
+}
+
+@media (min-width: 768px) {
+  .logo-md {
+    --s: 0.27;
+  }
+}

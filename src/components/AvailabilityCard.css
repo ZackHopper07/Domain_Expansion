@@ -1,0 +1,72 @@
+.availability {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .availability {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+.availability-domain {
+  margin-top: 14px;
+  font-size: clamp(1.75rem, 4.4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.availability-msg {
+  margin-top: 8px;
+  color: var(--ink-muted);
+  font-size: 1.0625rem;
+}
+
+.availability-side {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+@media (min-width: 768px) {
+  .availability-side {
+    justify-items: end;
+    text-align: right;
+  }
+}
+
+.best-price {
+  padding: 16px 20px;
+  background: var(--green-50);
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius);
+}
+
+.best-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green-900);
+}
+
+.best-amount {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.best-source {
+  font-size: 0.9375rem;
+  color: var(--ink-muted);
+}
+
+.checked-at {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--ink-subtle);
+}
