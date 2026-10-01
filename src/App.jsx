@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Header from './components/Header';
 import InfoStrip from './components/InfoStrip';
 import Hero from './components/Hero';
@@ -9,10 +9,18 @@ import HowWeWork from './components/HowWeWork';
 import RegistrarsStrip from './components/RegistrarsStrip';
 import Faq from './components/Faq';
 import Footer from './components/Footer';
+import AuthScreen from './components/AuthScreen';
 import { searchDomain } from './api/client';
 import { parseDomain, withExtension } from './utils/domain';
 
 const IDLE = { status: 'idle', domain: '', result: null, error: null };
+
+// #login and #signup open the full-screen auth page.
+const AUTH_HASHES = { '#login': 'login', '#signup': 'signup' };
+
+function readAuthMode() {
+  return AUTH_HASHES[window.location.hash] || null;
+}
 
 function readQueryParam() {
   return new URLSearchParams(window.location.search).get('q') || '';
@@ -34,6 +42,52 @@ export default function App() {
   const resultsHeadingRef = useRef(null);
   const latestRequest = useRef(0);
   const shouldFocusResults = useRef(false);
+
+  const [authMode, setAuthMode] = useState(readAuthMode);
+  const openedFromSite = useRef(false);
+  const savedScroll = useRef(0);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = readAuthMode();
+      setAuthMode((current) => {
+        if (next && !current) {
+          openedFromSite.current = true;
+          savedScroll.current = window.scrollY;
+        }
+        return next;
+      });
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  // Start the auth page at the top; put the homepage back where it was.
+  const firstRender = useRef(true);
+  useLayoutEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    window.scrollTo({ top: authMode ? 0 : savedScroll.current, behavior: 'instant' });
+  }, [authMode]);
+
+  const closeAuth = useCallback(() => {
+    if (openedFromSite.current) {
+      openedFromSite.current = false;
+      window.history.back();
+    } else {
+      // Landed straight on #login: drop the hash instead of leaving the site.
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      setAuthMode(null);
+    }
+  }, []);
+
+  // Swapping between log in and sign up shouldn't add a history entry.
+  const switchAuth = useCallback((mode) => {
+    window.history.replaceState(null, '', `#${mode}`);
+    setAuthMode(mode);
+  }, []);
 
   const runSearch = useCallback(async (raw) => {
     const parsed = parseDomain(raw);
@@ -86,6 +140,10 @@ export default function App() {
       inputRef.current?.focus({ preventScroll: true });
     }
   };
+
+  if (authMode) {
+    return <AuthScreen mode={authMode} onClose={closeAuth} onSwitch={switchAuth} />;
+  }
 
   return (
     <>

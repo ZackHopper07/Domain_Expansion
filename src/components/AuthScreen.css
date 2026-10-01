@@ -1,0 +1,326 @@
+/* Full-screen sign up / log in. An illustration sits on the left (a short
+   banner on phones) and the form sits on the right. */
+.auth {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  background: var(--surface);
+}
+
+/* Left panel */
+.auth-panel {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  height: 148px;
+  border-radius: var(--radius-lg);
+  /* The illustration's own backdrop colour, so any cropped edge blends in. */
+  background: #cfdaee;
+}
+
+.auth-panel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Phones get a short banner: keep the person and the phone in view. */
+  object-position: 50% 44%;
+}
+
+/* Right side */
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 4px 32px;
+}
+
+.auth-body {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  transition: border-color 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+
+.auth-back:hover {
+  border-color: var(--blue-500);
+  color: var(--blue-800);
+}
+
+.auth-back:focus-visible {
+  border-radius: 50%;
+}
+
+.auth-switch {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 10px;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.auth-switch-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  color: var(--blue-700);
+  text-decoration: none;
+  transition: border-color 150ms var(--ease-out), background-color 150ms var(--ease-out);
+}
+
+.auth-switch-link:hover {
+  border-color: var(--blue-500);
+  background: var(--blue-50);
+}
+
+.auth-title {
+  margin-top: 36px;
+  max-width: 17ch;
+  font-size: clamp(1.75rem, 2.6vw, 2.375rem);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* Each field is one tall box with its label inside, like the reference. */
+.auth-field {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 8px;
+  padding: 8px 8px 8px 16px;
+  min-height: 60px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--page);
+  transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out),
+    background-color 150ms var(--ease-out);
+}
+
+.auth-field:hover {
+  border-color: var(--line-strong);
+}
+
+.auth-field:focus-within {
+  border-color: var(--blue-700);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px var(--green-100);
+}
+
+.auth-field.is-invalid {
+  border-color: var(--red-700);
+  background: var(--red-50);
+}
+
+.auth-field.is-invalid:focus-within {
+  background: var(--surface);
+  box-shadow: 0 0 0 4px var(--red-50);
+}
+
+.auth-field label {
+  grid-column: 1;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-muted);
+}
+
+.auth-field input {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 2px 0 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.auth-field input:focus,
+.auth-field input:focus-visible {
+  outline: none;
+}
+
+.auth-reveal {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-subtle);
+}
+
+.auth-reveal:hover,
+.auth-reveal[aria-pressed='true'] {
+  color: var(--blue-700);
+}
+
+.auth-error {
+  margin-top: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--red-700);
+}
+
+.auth-rules {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0 2px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.auth-rules li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-rules li.is-met {
+  color: var(--green-700);
+}
+
+.auth-rule-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 50%;
+}
+
+.is-met .auth-rule-mark {
+  border-color: var(--green-700);
+  background: var(--green-700);
+  color: #fff;
+}
+
+/* Text centered with the arrow disc pinned right, as in the reference. */
+.auth-submit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin-top: 8px;
+  padding: 0 64px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--blue-700);
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease-out);
+}
+
+.auth-submit:hover {
+  background: var(--blue-800);
+}
+
+.auth-submit-icon {
+  position: absolute;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--blue-700);
+  transition: transform 200ms var(--ease-out);
+}
+
+.auth-submit:hover .auth-submit-icon {
+  transform: translateX(3px);
+}
+
+.auth-notice:not(:empty) {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--amber-50);
+  font-size: 0.875rem;
+  color: var(--amber-800);
+}
+
+.auth-legal {
+  margin-top: 20px;
+  max-width: 44ch;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-subtle);
+}
+
+/* Desktop: inset panel on the left, form on the right. */
+@media (min-width: 900px) {
+  .auth {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .auth-panel {
+    position: sticky;
+    top: 24px;
+    height: calc(100dvh - 48px);
+    min-height: 560px;
+    border-radius: 22px;
+  }
+
+  .auth-panel-img {
+    object-position: 50% 70%;
+  }
+
+  .auth-main {
+    align-items: center;
+    padding: 32px 24px;
+  }
+}

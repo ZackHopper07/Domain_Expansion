@@ -70,8 +70,10 @@
   margin-top: 16px;
 }
 
-.header-cta {
-  width: 100%;
+.header-auth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 @media (min-width: 1080px) {
@@ -113,7 +115,8 @@
     margin: 0;
   }
 
-  .header-cta {
-    width: auto;
+  .header-auth {
+    display: flex;
+    gap: 8px;
   }
 }
