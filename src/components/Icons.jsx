@@ -165,3 +165,33 @@ export const ChartIcon = (p) => (
     <path d="m7 14 4-4 3 3 5-6" />
   </Icon>
 );
+
+export const ArrowLeftIcon = (p) => (
+  <Icon {...p}>
+    <path d="M19 12H5" />
+    <path d="m11 6-6 6 6 6" />
+  </Icon>
+);
+
+export const ArrowRightIcon = (p) => (
+  <Icon {...p}>
+    <path d="M5 12h14" />
+    <path d="m13 6 6 6-6 6" />
+  </Icon>
+);
+
+export const EyeIcon = (p) => (
+  <Icon {...p}>
+    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+    <circle cx="12" cy="12" r="3" />
+  </Icon>
+);
+
+export const EyeOffIcon = (p) => (
+  <Icon {...p}>
+    <path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-2.2 3.1" />
+    <path d="M6.6 6.6C3.7 8.5 2 12 2 12s3.5 7 10 7a10 10 0 0 0 5.4-1.6" />
+    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+    <path d="m3 3 18 18" />
+  </Icon>
+);
