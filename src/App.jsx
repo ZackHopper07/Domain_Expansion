@@ -3,6 +3,7 @@ import Header from './components/Header';
 import InfoStrip from './components/InfoStrip';
 import Hero from './components/Hero';
 import Results from './components/Results';
+import PromiseTicker from './components/PromiseTicker';
 import ExtensionCards from './components/ExtensionCards';
 import HowWeWork from './components/HowWeWork';
 import RegistrarsStrip from './components/RegistrarsStrip';
@@ -118,6 +119,7 @@ export default function App() {
           />
         )}
 
+        <PromiseTicker />
         <ExtensionCards onPick={pickExtension} />
         <HowWeWork />
         <RegistrarsStrip />
