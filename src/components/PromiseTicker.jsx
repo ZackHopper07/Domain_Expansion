@@ -1,0 +1,68 @@
+import { useState } from 'react';
+import './PromiseTicker.css';
+
+// Short reasons to use the site, pulled from the promises in "How we work".
+// The headline line repeats between them, like a chorus.
+const HEADLINE = 'Why PriceMyDomain?';
+const PHRASES = [
+  ['Every registrar, one search', 'Renewal prices up front'],
+  ['We never make up a price', 'No markup from us'],
+  ['Every price shows its age', 'Buy direct from the registrar'],
+];
+
+// One pass of the loop. Repeated twice inside each group so the band
+// stays full on very wide screens.
+const ITEMS = [...PHRASES, ...PHRASES].flatMap((pair) => [HEADLINE, ...pair]);
+
+function Group() {
+  return (
+    <ul className="ticker-group">
+      {ITEMS.map((text, i) => (
+        <li key={i} className={text === HEADLINE ? 'ticker-item is-headline' : 'ticker-item'}>
+          {text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default function PromiseTicker() {
+  const [paused, setPaused] = useState(false);
+
+  return (
+    <section className={paused ? 'ticker is-paused' : 'ticker'} aria-label="Why use PriceMyDomain">
+      {/* Screen readers get the list once, without the repeats. */}
+      <ul className="sr-only">
+        {PHRASES.flat().map((text) => (
+          <li key={text}>{text}</li>
+        ))}
+      </ul>
+
+      <div className="ticker-viewport" aria-hidden="true">
+        <div className="ticker-track">
+          <Group />
+          <Group />
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="ticker-toggle"
+        aria-pressed={paused}
+        aria-label={paused ? 'Play scrolling text' : 'Pause scrolling text'}
+        onClick={() => setPaused((p) => !p)}
+      >
+        {paused ? (
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+            <path d="M3 1.5v11l9.5-5.5z" fill="currentColor" />
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+            <rect x="2.5" y="1.5" width="3" height="11" rx="1" fill="currentColor" />
+            <rect x="8.5" y="1.5" width="3" height="11" rx="1" fill="currentColor" />
+          </svg>
+        )}
+      </button>
+    </section>
+  );
+}
