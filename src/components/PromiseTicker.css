@@ -1,0 +1,117 @@
+.ticker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--green-500);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.ticker-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  /* Soften the right edge where text slides under the pause button. */
+  mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 90s linear infinite;
+}
+
+.ticker:hover .ticker-track,
+.ticker.is-paused .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-group {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  padding: 22px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Separator: a small bar leaning at the same angle as the logo's P. */
+.ticker-item::after {
+  content: '';
+  width: 7px;
+  height: 16px;
+  margin: 0 28px;
+  background: var(--ink);
+  transform: skewX(var(--slant));
+}
+
+.ticker-item.is-headline {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+.ticker-toggle {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 var(--gutter) 0 4px;
+  padding: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+
+.ticker-toggle:hover {
+  background: var(--ink);
+  color: var(--green-500);
+}
+
+.ticker-toggle:focus-visible {
+  outline-color: var(--ink);
+  border-radius: 50%;
+}
+
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .ticker-item {
+    padding: 16px 0;
+    font-size: 0.9375rem;
+  }
+
+  .ticker-item.is-headline {
+    font-size: 1.125rem;
+  }
+
+  .ticker-item::after {
+    margin: 0 20px;
+  }
+}
+
+/* No motion: show the start of the band still, and drop the toggle. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+
+  .ticker-toggle {
+    display: none;
+  }
+}
