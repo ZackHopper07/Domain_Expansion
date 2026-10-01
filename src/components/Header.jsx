@@ -40,9 +40,14 @@ export default function Header() {
           </ul>
           <div className="header-actions">
             <ExtensionButton />
-            <a href="#search" className="btn btn-primary header-cta" onClick={() => setOpen(false)}>
-              Search domains
-            </a>
+            <div className="header-auth">
+              <a href="#login" className="btn btn-secondary" onClick={() => setOpen(false)}>
+                Log in
+              </a>
+              <a href="#signup" className="btn btn-secondary" onClick={() => setOpen(false)}>
+                Sign up
+              </a>
+            </div>
           </div>
         </nav>
 
