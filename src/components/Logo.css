@@ -28,3 +28,12 @@
     --s: 0.27;
   }
 }
+
+.logo-dark,
+[data-theme='dark'] .logo-light {
+  display: none;
+}
+
+[data-theme='dark'] .logo-dark {
+  display: block;
+}

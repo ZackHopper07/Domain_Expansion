@@ -1,6 +1,6 @@
 .ticker {
   background: var(--green-500);
-  color: var(--ink);
+  color: var(--on-green-ink);
   overflow: hidden;
 }
 

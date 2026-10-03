@@ -7,7 +7,7 @@
 
 .info-strip.is-demo {
   background: var(--amber-50);
-  border-bottom-color: #f3e1bb;
+  border-bottom-color: var(--amber-100);
   color: var(--amber-800);
 }
 

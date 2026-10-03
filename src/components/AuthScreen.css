@@ -236,9 +236,9 @@
 }
 
 .is-met .auth-rule-mark {
-  border-color: var(--green-700);
-  background: var(--green-700);
-  color: #fff;
+  border-color: var(--fill-success);
+  background: var(--fill-success);
+  color: var(--on-fill);
 }
 
 /* Text centered with the arrow disc pinned right, as in the reference. */
@@ -252,16 +252,16 @@
   padding: 0 64px;
   border: 0;
   border-radius: var(--radius);
-  background: var(--blue-700);
+  background: var(--fill-primary);
   font: inherit;
   font-weight: 700;
-  color: #fff;
+  color: var(--on-fill);
   cursor: pointer;
   transition: background-color 150ms var(--ease-out);
 }
 
 .auth-submit:hover {
-  background: var(--blue-800);
+  background: var(--fill-primary-hover);
 }
 
 .auth-submit-icon {
