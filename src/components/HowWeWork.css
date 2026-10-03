@@ -43,8 +43,8 @@
   place-items: center;
   width: 46px;
   height: 40px;
-  background: var(--blue-700);
-  color: #fff;
+  background: var(--fill-primary);
+  color: var(--on-fill);
   border-radius: 7px;
   transform: skewX(var(--slant));
   font-weight: 800;
@@ -53,7 +53,7 @@
 
 .step:nth-child(even) .step-num {
   background: var(--green-500);
-  color: var(--green-900);
+  color: var(--on-green);
 }
 
 .step-num > span {

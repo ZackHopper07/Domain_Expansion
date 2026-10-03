@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import ExtensionButton from './ExtensionButton';
+import ThemeToggle from './ThemeToggle';
 import { MenuIcon, CloseIcon } from './Icons';
 import './Header.css';
 
@@ -51,16 +52,19 @@ export default function Header() {
           </div>
         </nav>
 
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls="main-nav"
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
-          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
-        </button>
+        <div className="header-tools">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-expanded={open}
+            aria-controls="main-nav"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
+            <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+          </button>
+        </div>
       </div>
     </header>
   );
