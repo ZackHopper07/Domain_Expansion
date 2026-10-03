@@ -14,6 +14,9 @@
   );
   --hero-ink: #0f3252;
   --hero-text: #1d2833;
+  --hero-top: #d3e6f4;
+  --chip-line: rgba(15, 50, 82, 0.28);
+  --chip-bg: rgba(255, 255, 255, 0.55);
 
   position: relative;
   overflow: hidden;
@@ -44,7 +47,7 @@
 /* Phones and tablets: flat grey matching the photo's top edge behind the
    text, then a full-width band carrying the photo's gradient. */
 .hero {
-  background: #d3e6f4;
+  background: var(--hero-top);
 }
 
 .hero-art {
@@ -119,7 +122,7 @@
 }
 
 .search-box.has-error {
-  border-color: #f28b82;
+  border-color: var(--red-300);
 }
 
 .search-icon {
@@ -138,7 +141,7 @@
 }
 
 .search-box input::placeholder {
-  color: #8a9199;
+  color: var(--ink-placeholder);
 }
 
 .search-box input:focus {
@@ -155,15 +158,15 @@
   padding: 0 22px;
   border: 0;
   border-radius: 12px;
-  background: var(--blue-700);
-  color: #fff;
+  background: var(--fill-primary);
+  color: var(--on-fill);
   font-weight: 700;
   font-size: 1rem;
   transition: background-color 150ms var(--ease-out);
 }
 
 .search-submit:hover {
-  background: var(--blue-800);
+  background: var(--fill-primary-hover);
 }
 
 .search-submit:disabled {
@@ -233,15 +236,56 @@
   min-height: 36px;
   min-width: 52px;
   padding: 4px 14px;
-  border: 1px solid rgba(15, 50, 82, 0.28);
+  border: 1px solid var(--chip-line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--chip-bg);
   color: var(--hero-ink);
   font-weight: 600;
   transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out);
 }
 
 .quick-ext button:hover {
-  background: #fff;
+  background: var(--surface);
   border-color: var(--blue-700);
+}
+
+/* Dark theme: a deep wash of the logo blue. The photo carries its own light
+   backdrop, so it sits in a rounded card instead of bleeding into the page. */
+[data-theme='dark'] .hero {
+  --hero-bg: linear-gradient(180deg, #132a40 0%, #10202f 45%, var(--page) 100%);
+  --hero-top: #132a40;
+  --hero-ink: #eef4fa;
+  --hero-text: #c3ced8;
+  --chip-line: rgba(200, 226, 246, 0.28);
+  --chip-bg: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='dark'] .search-box {
+  border-color: var(--line);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] .search-box:focus-within {
+  border-color: var(--green-500);
+}
+
+[data-theme='dark'] .search-box.has-error {
+  border-color: var(--red-300);
+}
+
+[data-theme='dark'] .hero-art {
+  padding: 0 var(--gutter) 40px;
+  background: none;
+}
+
+[data-theme='dark'] .hero-art img {
+  border-radius: 28px;
+}
+
+@media (min-width: 1200px) {
+  [data-theme='dark'] .hero-art {
+    top: 48px;
+    bottom: 48px;
+    padding: 0;
+  }
 }

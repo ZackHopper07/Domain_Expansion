@@ -24,9 +24,28 @@
   --page: #f5f8fa;
 
   --red-50: #fdf1f0;
+  --red-100: #f4c7c3;
+  --red-300: #f28b82;
   --red-700: #b3261e;
   --amber-50: #fff6e5;
+  --amber-100: #f3e1bb;
   --amber-800: #7a4d00;
+
+  --neutral-100: #eef1f4;
+  --line-soft: #e9edf1;
+  --ink-placeholder: #8a9199;
+  --skeleton-a: #edf1f4;
+  --skeleton-b: #f6f8fa;
+
+  /* Solid fills keep the same colour in both themes, so the text on them
+     can stay fixed. Scale steps above (700, 900...) flip in dark mode. */
+  --fill-primary: #1f6199;
+  --fill-primary-hover: #184d7a;
+  --fill-strong: #0f3252;
+  --fill-success: #3b7a12;
+  --on-fill: #ffffff;
+  --on-green: #234a0a; /* text on logo green */
+  --on-green-ink: #2b2f33;
 
   --font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -44,6 +63,52 @@
   --header-h: 72px;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* Dark theme. Set by the header toggle (data-theme on <html>). Tint steps
+   (50, 100) become deep backgrounds and text steps (700-900) become light,
+   so every component that reads the scale gets readable pairs for free. */
+:root[data-theme='dark'] {
+  --green-50: #16260e;
+  --green-100: #24401a;
+  --green-700: #9ed672;
+  --green-900: #c8eca6;
+
+  --blue-50: #13283b;
+  --blue-100: #183652;
+  --blue-500: #529fd6;
+  --blue-700: #82bdea;
+  --blue-800: #a3cff0;
+  --blue-900: #c8e2f6;
+
+  --ink: #e6ebf0;
+  --ink-muted: #aab4be;
+  --ink-subtle: #8f9aa5;
+  --line: #26323d;
+  --line-strong: #3a4854;
+  --surface: #131b22;
+  --page: #0d1318;
+
+  --red-50: #2d1715;
+  --red-100: #5c2b27;
+  --red-300: #e0786e;
+  --red-700: #f4a59e;
+  --amber-50: #2a200b;
+  --amber-100: #574012;
+  --amber-800: #f1c877;
+
+  --neutral-100: #1f2932;
+  --line-soft: #202a33;
+  --ink-placeholder: #75808b;
+  --skeleton-a: #1b252e;
+  --skeleton-b: #24303a;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.4), 0 14px 40px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
 }
 
 @media (min-width: 768px) {
@@ -172,15 +237,15 @@ svg {
   top: -60px;
   z-index: 1000;
   padding: 10px 16px;
-  background: var(--blue-900);
-  color: #fff;
+  background: var(--fill-strong);
+  color: var(--on-fill);
   border-radius: var(--radius-sm);
   font-weight: 600;
 }
 
 .skip-link:focus {
   top: 12px;
-  color: #fff;
+  color: var(--on-fill);
 }
 
 /* Buttons */
@@ -200,13 +265,13 @@ svg {
 }
 
 .btn-primary {
-  background: var(--blue-700);
-  color: #fff;
+  background: var(--fill-primary);
+  color: var(--on-fill);
 }
 
 .btn-primary:hover {
-  background: var(--blue-800);
-  color: #fff;
+  background: var(--fill-primary-hover);
+  color: var(--on-fill);
 }
 
 .btn-secondary {
@@ -245,7 +310,7 @@ svg {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #edf1f4 0%, #f6f8fa 50%, #edf1f4 100%);
+  background: linear-gradient(90deg, var(--skeleton-a) 0%, var(--skeleton-b) 50%, var(--skeleton-a) 100%);
   background-size: 200% 100%;
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: var(--radius-sm);
