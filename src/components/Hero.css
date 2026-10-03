@@ -1,83 +1,94 @@
+/* A wash of the logo blue (blue-100 into the page colour). The photo's
+   backdrop was recoloured to the same values (top to bottom),
+   so the photo sits on the page without a visible edge. */
 .hero {
+  --hero-bg: linear-gradient(
+    180deg,
+    #d3e6f4 0%,
+    #d6e7f4 13%,
+    #dceaf5 33%,
+    #e4eff5 53%,
+    #ebf2f8 73%,
+    #f0f5f9 87%,
+    #f5f8fa 100%
+  );
+  --hero-ink: #0f3252;
+  --hero-text: #1d2833;
+
   position: relative;
   overflow: hidden;
-  background: var(--blue-900);
-  color: #fff;
-  padding: 56px 0 64px;
-}
-
-@media (min-width: 768px) {
-  .hero {
-    padding: 88px 0 96px;
-  }
-}
-
-/* Two slanted bars echo the logo's "P" mark. */
-.hero-shapes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.shape {
-  position: absolute;
-  top: -10%;
-  height: 120%;
-  transform: skewX(var(--slant));
-  border-radius: 28px;
-}
-
-.shape-green {
-  right: 4%;
-  width: 180px;
-  background: var(--green-500);
-  opacity: 0.9;
-}
-
-.shape-blue {
-  right: -8%;
-  width: 220px;
-  height: 64%;
-  background: var(--blue-500);
-}
-
-@media (max-width: 767px) {
-  .shape-green {
-    right: -26%;
-    width: 120px;
-    opacity: 0.35;
-  }
-  .shape-blue {
-    right: -40%;
-    width: 140px;
-    opacity: 0.45;
-  }
-}
-
-@media (min-width: 1200px) {
-  .shape-green {
-    right: 9%;
-  }
-  .shape-blue {
-    right: 0;
-  }
+  color: var(--hero-text);
+  padding-top: 48px;
 }
 
 .hero-inner {
   position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
-  max-width: 17ch;
-  font-size: clamp(2.125rem, 5.4vw, 3.75rem);
-  letter-spacing: -0.025em;
+  max-width: 15ch;
+  color: var(--hero-ink);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
 }
 
 .hero-lead {
-  max-width: 54ch;
-  margin-top: 18px;
+  max-width: 46ch;
+  margin-top: 20px;
   font-size: 1.125rem;
-  color: #d6e4f0;
+  line-height: 1.6;
+}
+
+/* Phones and tablets: flat grey matching the photo's top edge behind the
+   text, then a full-width band carrying the photo's gradient. */
+.hero {
+  background: #d3e6f4;
+}
+
+.hero-art {
+  margin-top: 32px;
+  background: var(--hero-bg);
+}
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Desktop: text on the left, photo pinned to the container's right edge at
+   the hero's full height, so both gradients line up exactly. */
+@media (min-width: 1200px) {
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 640px;
+    padding: 72px 0;
+    background: var(--hero-bg);
+  }
+
+  .hero-inner {
+    padding-right: calc(var(--gutter) + 580px);
+  }
+
+  .hero-art {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: max(0px, calc((100% - var(--container)) / 2 - var(--gutter) / 2));
+    margin: 0;
+    background: none;
+  }
+
+  .hero-art img {
+    width: auto;
+    max-width: none;
+    height: 100%;
+  }
 }
 
 .search-form {
@@ -89,7 +100,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #fff;
+  color: var(--hero-ink);
 }
 
 .search-box {
@@ -100,7 +111,7 @@
   background: var(--surface);
   border: 2px solid transparent;
   border-radius: var(--radius-lg);
-  box-shadow: 0 18px 50px rgba(3, 18, 33, 0.35);
+  box-shadow: 0 1px 2px rgba(15, 50, 82, 0.08), 0 16px 40px rgba(15, 50, 82, 0.16);
 }
 
 .search-box:focus-within {
@@ -180,7 +191,7 @@
 }
 
 .search-help {
-  color: #c3d6e7;
+  color: var(--hero-text);
 }
 
 .search-error {
@@ -205,7 +216,7 @@
   align-items: center;
   gap: 10px 14px;
   margin-top: 22px;
-  color: #c3d6e7;
+  color: var(--hero-text);
   font-size: 0.9375rem;
 }
 
@@ -222,15 +233,15 @@
   min-height: 36px;
   min-width: 52px;
   padding: 4px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(15, 50, 82, 0.28);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--hero-ink);
   font-weight: 600;
   transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out);
 }
 
 .quick-ext button:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: var(--green-500);
+  background: #fff;
+  border-color: var(--blue-700);
 }

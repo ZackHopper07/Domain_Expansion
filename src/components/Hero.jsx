@@ -1,5 +1,7 @@
 import { forwardRef } from 'react';
 import { SearchIcon, AlertIcon } from './Icons';
+import heroSmall from '../assets/hero-search-730.webp';
+import heroLarge from '../assets/hero-search-1460.webp';
 import './Hero.css';
 
 const QUICK_EXTENSIONS = ['com', 'net', 'io', 'co', 'ai', 'app'];
@@ -12,11 +14,6 @@ const Hero = forwardRef(function Hero({ value, onChange, onSubmit, onPickExtensi
 
   return (
     <section className="hero" id="search" aria-labelledby="hero-title">
-      <div className="hero-shapes" aria-hidden="true">
-        <span className="shape shape-green" />
-        <span className="shape shape-blue" />
-      </div>
-
       <div className="container hero-inner">
         <h1 id="hero-title">Find the best price for your domain before you buy it.</h1>
         <p className="hero-lead">
@@ -80,6 +77,19 @@ const Hero = forwardRef(function Hero({ value, onChange, onSubmit, onPickExtensi
             ))}
           </ul>
         </div>
+      </div>
+
+      {/* The photo's grey backdrop matches .hero's gradient, so it blends into the page. */}
+      <div className="hero-art">
+        <img
+          src={heroSmall}
+          srcSet={`${heroSmall} 730w, ${heroLarge} 1460w`}
+          sizes="(min-width: 1200px) 640px, (min-width: 640px) 620px, 100vw"
+          width="730"
+          height="750"
+          alt=""
+          fetchPriority="high"
+        />
       </div>
     </section>
   );
