@@ -22,7 +22,7 @@
   border-radius: 999px;
   background: var(--amber-50);
   color: var(--amber-800);
-  box-shadow: inset 0 0 0 1px #f3e1bb;
+  box-shadow: inset 0 0 0 1px var(--amber-100);
   font-size: 0.75rem;
   font-weight: 700;
 }
@@ -56,7 +56,7 @@
   color: var(--ink);
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1200px) {
   .ext-btn {
     width: auto;
   }

@@ -1,0 +1,76 @@
+.ticker {
+  background: var(--green-500);
+  color: var(--on-green-ink);
+  overflow: hidden;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 90s linear infinite;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-group {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  padding: 22px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Separator: a small bar leaning at the same angle as the logo's P. */
+.ticker-item::after {
+  content: '';
+  width: 7px;
+  height: 16px;
+  margin: 0 28px;
+  background: var(--ink);
+  transform: skewX(var(--slant));
+}
+
+.ticker-item.is-headline {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .ticker-item {
+    padding: 16px 0;
+    font-size: 0.9375rem;
+  }
+
+  .ticker-item.is-headline {
+    font-size: 1.125rem;
+  }
+
+  .ticker-item::after {
+    margin: 0 20px;
+  }
+}
+
+/* No motion: show the start of the band, standing still. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}

@@ -28,10 +28,13 @@ export function validateAuthForm(mode, formData) {
   validateEmail(formData.email, errors);
 
   if (mode === "signup") {
-    // Sign-up creates a brand-new password, so it must satisfy every rule
-    // and match the confirmation field.
+    // Name and confirm-password are only checked when the form has them.
+    if ("name" in formData) validateName(formData.name, errors);
+    // Sign-up creates a brand-new password, so it must satisfy every rule.
     validatePassword(formData.password, errors);
-    validateConfirmPassword(formData.password, formData.confirmPassword, errors);
+    if ("confirmPassword" in formData) {
+      validateConfirmPassword(formData.password, formData.confirmPassword, errors);
+    }
   } else {
     // Login checks an existing password — only require that one was entered;
     // whether it's correct is decided by authenticateUser against the store.
@@ -42,6 +45,12 @@ export function validateAuthForm(mode, formData) {
     valid: Object.keys(errors).length === 0,
     errors,
   };
+}
+
+function validateName(name, errors) {
+  if (!name?.trim()) {
+    errors.name = "Enter your name";
+  }
 }
 
 function validateEmail(email, errors) {

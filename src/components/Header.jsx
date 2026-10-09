@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import ExtensionButton from './ExtensionButton';
+import ThemeToggle from './ThemeToggle';
 import { MenuIcon, CloseIcon } from './Icons';
 import './Header.css';
 
 const LINKS = [
+  { href: '#search', label: 'Search domains' },
   { href: '#extensions', label: 'Extensions' },
   { href: '#how-we-work', label: 'How we work' },
   { href: '#registrars', label: 'Registrars' },
@@ -40,22 +42,30 @@ export default function Header() {
           </ul>
           <div className="header-actions">
             <ExtensionButton />
-            <a href="#search" className="btn btn-primary header-cta" onClick={() => setOpen(false)}>
-              Search domains
-            </a>
+            <div className="header-auth">
+              <a href="#login" className="btn btn-secondary" onClick={() => setOpen(false)}>
+                Log in
+              </a>
+              <a href="#signup" className="btn btn-secondary" onClick={() => setOpen(false)}>
+                Sign up
+              </a>
+            </div>
           </div>
         </nav>
 
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls="main-nav"
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
-          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
-        </button>
+        <div className="header-tools">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-expanded={open}
+            aria-controls="main-nav"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
+            <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+          </button>
+        </div>
       </div>
     </header>
   );

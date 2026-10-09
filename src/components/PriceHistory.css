@@ -36,7 +36,7 @@
 .view-toggle button[aria-pressed='true'] {
   background: var(--surface);
   color: var(--ink);
-  box-shadow: 0 1px 3px rgba(18, 38, 58, 0.12);
+  box-shadow: var(--shadow);
 }
 
 .history-stats {
@@ -83,7 +83,7 @@
 }
 
 .chart .grid {
-  stroke: #e9edf1;
+  stroke: var(--line-soft);
   stroke-width: 1;
 }
 
