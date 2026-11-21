@@ -11,7 +11,7 @@ npm run dev
 
 ## Demo data vs. the real backend
 
-Until the FastAPI backend exists, the site uses sample data from `src/api/mock.js`. The site shows a "Demo mode" banner while this is on.
+By default the site uses sample data from `src/api/mock.js` and shows a "Demo mode" banner. The FastAPI backend lives in [`backend/`](backend/README.md); see its README to run it.
 
 To switch to the backend, copy `.env.example` to `.env` and set:
 
