@@ -1,0 +1,48 @@
+# Production setup: website + API + database on one server.
+#
+#   1. Create a .env file next to this one with at least:  POSTGRES_PASSWORD=<a long random password>
+#   2. docker compose -f docker-compose.prod.yml up -d --build
+#
+# The site is then served on port 80. Only port 80 is opened; the API and
+# database are reachable only from inside Docker.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pricemydomain}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-pricemydomain}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pricemydomain} -d ${POSTGRES_DB:-pricemydomain}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-pricemydomain}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-pricemydomain}
+      AVAILABILITY: ${AVAILABILITY:-rdap}
+      PROVIDERS: ${PROVIDERS:-demo}
+      PROVIDER_TIMEOUT_SECONDS: ${PROVIDER_TIMEOUT_SECONDS:-5}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/web.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-80}:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

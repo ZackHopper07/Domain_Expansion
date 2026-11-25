@@ -40,6 +40,18 @@ async function request(path, { method = 'GET', body } = {}) {
   return response.json();
 }
 
+let healthPromise;
+
+/** Whether the data is demo or live, and which registrars are connected. Fetched once per page load. */
+export function getServiceInfo() {
+  if (USE_MOCK) return Promise.resolve({ demo_mode: true, providers: mock.DEMO_REGISTRARS });
+  healthPromise ??= request('/api/health').catch((err) => {
+    healthPromise = undefined; // let a later call retry
+    throw err;
+  });
+  return healthPromise;
+}
+
 export function searchDomain(domain) {
   if (USE_MOCK) return mock.searchDomain(domain);
   return request('/api/domains/search', { method: 'POST', body: { domain } });

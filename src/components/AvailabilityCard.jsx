@@ -33,7 +33,11 @@ const UNKNOWN = {
   pill: 'pill-neutral',
   Icon: ClockIcon,
   label: 'Unknown',
-  message: (d) => `We couldn’t confirm whether ${d} is available. Try again shortly.`,
+  message: (d, note) => `We couldn’t confirm whether ${d} is available. ${note || 'Try again shortly.'}`,
+};
+
+const SOURCE_LABEL = {
+  rdap: (tld) => `Checked live with the .${tld} registry`,
 };
 
 export default function AvailabilityCard({ result }) {
@@ -49,8 +53,11 @@ export default function AvailabilityCard({ result }) {
         </span>
         <p className="availability-domain">{result.domain}</p>
         <p className="availability-msg" role="status">
-          {s.message(result.domain)}
+          {s.message(result.domain, result.status_note)}
         </p>
+        {result.status !== 'unknown' && SOURCE_LABEL[result.availability_source] && (
+          <p className="availability-source">{SOURCE_LABEL[result.availability_source](result.tld)}</p>
+        )}
       </div>
 
       <div className="availability-side">

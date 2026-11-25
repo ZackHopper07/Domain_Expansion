@@ -42,3 +42,7 @@
   font-weight: 700;
   color: var(--ink-muted);
 }
+
+.registrar-list-empty {
+  color: var(--ink-subtle);
+}

@@ -77,8 +77,10 @@ export default function PriceTable({ result }) {
         <p className="note note-info">
           <InfoIcon size={18} />
           <span>
-            This name can’t be registered, so first-year prices aren’t shown. If you already own it, compare renewal
-            and transfer prices below.
+            {result.status === 'unknown'
+              ? 'We couldn’t confirm this name is free, so first-year prices aren’t shown. Check availability with a registrar before buying.'
+              : 'This name can’t be registered, so first-year prices aren’t shown.'}{' '}
+            If you already own it, compare renewal and transfer prices below.
           </span>
         </p>
       )}
